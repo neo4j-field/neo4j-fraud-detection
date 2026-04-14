@@ -1,4 +1,4 @@
-# IEEE-CIS Fraud Detection — Graph-Enhanced ML Demo
+# IEEE-CIS Fraud Detection - Graph-Enhanced ML Demo
 
 A complete fraud detection project comparing traditional ML against graph-enhanced ML using Neo4j. Built on the [IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) dataset.
 
@@ -12,7 +12,7 @@ A complete fraud detection project comparing traditional ML against graph-enhanc
 | Precision | 0.6689 | 0.7914 | +18.3% |
 | Recall | 0.5103 | 0.6126 | +20.0% |
 
-Graph features improve PR-AUC by **21.5%** — 376 more fraud cases caught and 335 fewer false alarms on the same validation set.
+Graph features improve PR-AUC by **21.5%** - 376 more fraud cases caught and 335 fewer false alarms on the same validation set.
 
 ---
 
@@ -140,7 +140,7 @@ The chosen graph model connects transactions to seven shared entity types:
 Fraudsters reuse infrastructure: the same card, device, or email domain across multiple transactions. A tabular model sees each transaction in isolation and misses these connections. The graph makes shared identity explicit and queryable.
 
 Key graph signals found:
-- **Card 9633**: 742 fraud transactions — a systematically exploited card
+- **Card 9633**: 742 fraud transactions - a systematically exploited card
 - **card_fraud_rate**: Fraud transactions come from cards with 5× higher fraud rates than legitimate transactions
 - **device_fraud_rate**: Identity-linked fraud transactions use devices with 3× higher fraud rates
 
@@ -156,8 +156,8 @@ See `demo/demo_talk_track.md` for a full presentation narrative.
 ## Technical Notes
 
 - **Class imbalance**: 3.5% fraud rate. Model uses `scale_pos_weight` (~27.4) to compensate.
-- **Primary metric**: PR-AUC (precision-recall area under curve) — more informative than accuracy or ROC-AUC for imbalanced fraud.
+- **Primary metric**: PR-AUC (precision-recall area under curve) - more informative than accuracy or ROC-AUC for imbalanced fraud.
 - **Train/val split**: Temporal (TransactionDT ≤ day 145 = train, > day 145 = val). Simulates deployment.
 - **Graph features**: Entity fraud rates computed on training data only. No leakage to validation.
 - **Embeddings**: FastRP 64-dim, 2-hop neighborhood, trained on graph structure only (no fraud label).
-- **WCC**: Weakly connected components had no discriminative power — 60 email domain hubs connect nearly all transactions into one giant component.
+- **WCC**: Weakly connected components had no discriminative power - 60 email domain hubs connect nearly all transactions into one giant component.

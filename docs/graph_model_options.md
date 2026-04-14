@@ -1,4 +1,4 @@
-# Graph Model Options — IEEE-CIS Fraud Detection
+# Graph Model Options - IEEE-CIS Fraud Detection
 
 This document presents two candidate graph models for the fraud detection demo.
 
@@ -12,11 +12,11 @@ The core insight is **shared entity reuse**. Fraudsters rarely act in total isol
 - Billing addresses get reused across related fraudulent accounts
 - Certain email domains (e.g., `anonymous.com`, `outlook.com`) concentrate fraud
 
-A tabular model sees each transaction independently and cannot detect these patterns. A graph makes the connections between transactions explicit — a dense neighborhood of fraud-labeled transactions around a single shared card or device is a strong signal.
+A tabular model sees each transaction independently and cannot detect these patterns. A graph makes the connections between transactions explicit - a dense neighborhood of fraud-labeled transactions around a single shared card or device is a strong signal.
 
 ---
 
-## Model A — Simple Demo-Friendly Model
+## Model A - Simple Demo-Friendly Model
 
 ### Node Labels
 
@@ -42,7 +42,7 @@ A tabular model sees each transaction independently and cannot detect these patt
 - Clean and minimal: 5 node types, 5 relationship types
 - All entity nodes have stable, meaningful keys
 - Easy to explain to non-technical audiences
-- Device nodes naturally represent only 24.4% of transactions (those with identity) — this is not a problem, it's realistic
+- Device nodes naturally represent only 24.4% of transactions (those with identity) - this is not a problem, it's realistic
 - Supports connected-component analysis at the card and device level
 - Supports FastRP embeddings on the Transaction node projection
 
@@ -54,7 +54,7 @@ A tabular model sees each transaction independently and cannot detect these patt
 
 ---
 
-## Model B — Richer, More Expressive Model
+## Model B - Richer, More Expressive Model
 
 ### Additional Node Labels (on top of Model A)
 
@@ -78,14 +78,14 @@ A tabular model sees each transaction independently and cannot detect these patt
 
 ### Strengths
 - Richer connectivity: fraudulent transactions become identifiable through multiple simultaneous entity matches
-- `ProxyType` is a direct fraud signal — any connection to TRANSPARENT or ANONYMOUS proxy is meaningful
+- `ProxyType` is a direct fraud signal - any connection to TRANSPARENT or ANONYMOUS proxy is meaningful
 - `OSBrowser` provides an additional soft-fingerprint layer for device identification even when `DeviceInfo` is missing
 - `TimeBucket` enables temporal subgraph queries ("all fraud in this time window")
 - More relationship types → richer embeddings
 
 ### Weaknesses
 - More nodes and relationships increase loading complexity and graph size
-- `ProductType` and `CardNetwork` have very low cardinality (4–5 values); they become hub nodes that connect vast numbers of transactions — these mega-hubs dilute graph features rather than sharpening them
+- `ProductType` and `CardNetwork` have very low cardinality (4–5 values); they become hub nodes that connect vast numbers of transactions - these mega-hubs dilute graph features rather than sharpening them
 - `TimeBucket` adds temporal context but requires careful design to avoid trivially connecting every transaction in the same day
 - `ProxyType` and `OSBrowser` are only available for the 24.4% of transactions with identity data, so large parts of the graph won't have these connections
 - More complex to explain and debug
@@ -98,11 +98,11 @@ A tabular model sees each transaction independently and cannot detect these patt
 
 ### Reasoning
 
-1. **Cardinality is appropriate**: Card (13K), EmailDomain (60), BillingAddress (~5K), Device (~500 after normalization) — none of these are mega-hubs that would destroy graph signal
-2. **All 5 entities have clear fraud intuition**: A card shared across many fraudulent transactions, a device used in a fraud cluster, an email domain with high fraud concentration — all of these are immediately explainable
+1. **Cardinality is appropriate**: Card (13K), EmailDomain (60), BillingAddress (~5K), Device (~500 after normalization) - none of these are mega-hubs that would destroy graph signal
+2. **All 5 entities have clear fraud intuition**: A card shared across many fraudulent transactions, a device used in a fraud cluster, an email domain with high fraud concentration - all of these are immediately explainable
 3. **Device covers the identity-linked sub-population cleanly** without forcing artificial null nodes for the 75% of transactions without identity data
 4. **Demo-friendly**: A non-technical audience can understand "these 6 transactions all used the same card" without needing to know what `id_30` or `OSBrowser` means
-5. **Model B's extra nodes** (ProductType, CardNetwork, TimeBucket) have too-low cardinality and would create hub nodes connecting millions of transactions — this destroys graph discriminability
+5. **Model B's extra nodes** (ProductType, CardNetwork, TimeBucket) have too-low cardinality and would create hub nodes connecting millions of transactions - this destroys graph discriminability
 6. **Model A is sufficient for FastRP embeddings**: The bipartite Transaction-Entity structure gives FastRP enough heterogeneous connectivity to produce meaningful embeddings
 
 Model B elements worth incorporating later: `ProxyType` (strong signal) and `OSBrowser` (useful for the identity sub-population) can be added as Phase 2 improvements if Model A embeddings underperform.

@@ -1,4 +1,4 @@
-# Graph Features Report — Phase 5
+# Graph Features Report - Phase 5
 
 ## Features Generated
 
@@ -34,16 +34,16 @@ Via WCC (Weakly Connected Components) on the full bipartite graph.
 | `component_fraud_count` | Fraud transactions in component |
 | `component_fraud_rate` | Fraud rate in component |
 
-**Important finding**: WCC components are not useful as ML features in this dataset. Because EmailDomain nodes (only 60 values) connect nearly all transactions into one giant component, most transactions share the same component stats. `component_fraud_rate` shows fraud≈0.0351 vs legit≈0.0350 — essentially no discrimination. These 4 features will be excluded from the ML feature set.
+**Important finding**: WCC components are not useful as ML features in this dataset. Because EmailDomain nodes (only 60 values) connect nearly all transactions into one giant component, most transactions share the same component stats. `component_fraud_rate` shows fraud≈0.0351 vs legit≈0.0350 - essentially no discrimination. These 4 features will be excluded from the ML feature set.
 
 ### Node Embeddings (64 features)
 
 FastRP embeddings (64 dimensions) for all 590,540 Transaction nodes.
 
 - **Graph projection**: All 5 node labels + 5 relationship types, undirected
-- **iterationWeights**: [0.0, 1.0, 1.0] — captures 2-hop neighborhood
+- **iterationWeights**: [0.0, 1.0, 1.0] - captures 2-hop neighborhood
 - **Embedding quality**: Centroid cosine similarity (fraud vs legit) = 0.9195; L2 distance = 0.1012
-- The modest separation is expected — FastRP is unsupervised (doesn't use isFraud). The discriminative power will be unlocked by the downstream LightGBM model, which can find non-linear patterns in embedding space.
+- The modest separation is expected - FastRP is unsupervised (doesn't use isFraud). The discriminative power will be unlocked by the downstream LightGBM model, which can find non-linear patterns in embedding space.
 
 ## Signal Strength
 
@@ -59,5 +59,5 @@ FastRP embeddings (64 dimensions) for all 590,540 Transaction nodes.
 
 ## Artifacts
 
-- `artifacts/graph_features.parquet` — 590,540 rows × 17 columns
-- `artifacts/transaction_embeddings.parquet` — 590,540 rows × 65 columns (transactionId + 64 emb dims)
+- `artifacts/graph_features.parquet` - 590,540 rows × 17 columns
+- `artifacts/transaction_embeddings.parquet` - 590,540 rows × 65 columns (transactionId + 64 emb dims)

@@ -1,4 +1,4 @@
-# Baseline Model Metrics — Tabular Only (LightGBM)
+# Baseline Model Metrics - Tabular Only (LightGBM)
 
 ## Experiment Setup
 - **Model**: LightGBM (GBDT)

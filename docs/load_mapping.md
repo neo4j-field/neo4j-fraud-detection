@@ -1,4 +1,4 @@
-# Graph Load Mapping — IEEE-CIS Fraud Detection
+# Graph Load Mapping - IEEE-CIS Fraud Detection
 
 Documents exactly which CSV columns map to which Neo4j node labels and relationship types.
 

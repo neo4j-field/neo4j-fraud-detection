@@ -1,4 +1,4 @@
-# Final Graph Model — IEEE-CIS Fraud Detection
+# Final Graph Model - IEEE-CIS Fraud Detection
 
 **Chosen Model**: Model A (simple, demo-friendly)
 
@@ -75,7 +75,7 @@ Represents a payment instrument, identified by `card1`.
 
 ### EmailDomain
 
-Represents an email domain (not a full email address — full addresses are not in the dataset).
+Represents an email domain (not a full email address - full addresses are not in the dataset).
 
 Two relationships connect Transaction → EmailDomain:
 - `PAYER_EMAIL`: the purchaser's email domain (`P_emaildomain`)

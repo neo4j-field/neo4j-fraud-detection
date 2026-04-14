@@ -1,4 +1,4 @@
-# IEEE-CIS Fraud Detection — Data Profile Report
+# IEEE-CIS Fraud Detection - Data Profile Report
 
 Generated during Phase 1 data understanding.
 
@@ -51,19 +51,19 @@ train_transaction LEFT JOIN train_identity ON TransactionID
 
 ### 4.1 Direct Entity / Identity Columns
 
-These are the most valuable for graph modeling — they represent real-world entities that can be shared across transactions:
+These are the most valuable for graph modeling - they represent real-world entities that can be shared across transactions:
 
 | Column | Type | Cardinality | Graph value |
 |---|---|---|---|
-| `card1` | int | 13,553 unique | High — acts as payment instrument fingerprint |
-| `card2` | float | 500 unique | Medium — partial card identifier |
-| `card4` | str | 4 unique (visa/mc/amex/discover) | Low cardinality — card network |
-| `card6` | str | 4 unique (debit/credit) | Low cardinality — card type |
-| `addr1` | float | 332 unique | Medium — billing zip/postal area |
-| `addr2` | float | 74 unique | Low — country/region code |
-| `P_emaildomain` | str | 59 unique | Medium — purchaser email domain |
-| `R_emaildomain` | str | 60 unique | Medium — recipient email domain |
-| `ProductCD` | str | 5 unique (W/C/H/S/R) | Low — product category |
+| `card1` | int | 13,553 unique | High - acts as payment instrument fingerprint |
+| `card2` | float | 500 unique | Medium - partial card identifier |
+| `card4` | str | 4 unique (visa/mc/amex/discover) | Low cardinality - card network |
+| `card6` | str | 4 unique (debit/credit) | Low cardinality - card type |
+| `addr1` | float | 332 unique | Medium - billing zip/postal area |
+| `addr2` | float | 74 unique | Low - country/region code |
+| `P_emaildomain` | str | 59 unique | Medium - purchaser email domain |
+| `R_emaildomain` | str | 60 unique | Medium - recipient email domain |
+| `ProductCD` | str | 5 unique (W/C/H/S/R) | Low - product category |
 
 From `train_identity` (only 24.4% transactions):
 
@@ -82,10 +82,10 @@ From `train_identity` (only 24.4% transactions):
 |---|---|---|
 | `C1`–`C14` | 14 cols | Count-like features (e.g., how many addresses on card). Not directly entity-identifiable |
 | `D1`–`D15` | 15 cols | Time delta features (e.g., days since last transaction, card activation age) |
-| `M1`–`M9` | 9 cols | Match flags: T/F/NaN — whether card/billing/name fields match on file |
-| `id_12`, `id_15`, `id_16`, `id_28`, `id_29` | 5 cols | Found/NotFound flags — account/proxy lookup results |
+| `M1`–`M9` | 9 cols | Match flags: T/F/NaN - whether card/billing/name fields match on file |
+| `id_12`, `id_15`, `id_16`, `id_28`, `id_29` | 5 cols | Found/NotFound flags - account/proxy lookup results |
 | `id_34`–`id_38` | 5 cols | match_status codes and T/F flags |
-| `id_01`–`id_11`, `id_13`–`id_14`, `id_17`–`id_27` | ~20 cols | Mostly numeric — risk scores, counts, offsets (unclear semantics) |
+| `id_01`–`id_11`, `id_13`–`id_14`, `id_17`–`id_27` | ~20 cols | Mostly numeric - risk scores, counts, offsets (unclear semantics) |
 
 ### 4.3 Vesta-Engineered Features (Opaque)
 
@@ -138,7 +138,7 @@ From `train_identity` (only 24.4% transactions):
 | Dimension | Notable Findings |
 |---|---|
 | **Overall** | 3.50% fraud rate |
-| **ProductCD=C** | 11.7% fraud rate — highest risk category |
+| **ProductCD=C** | 11.7% fraud rate - highest risk category |
 | **ProductCD=S** | 5.9% fraud |
 | **card6=credit** | 6.7% fraud (vs 2.4% debit) |
 | **card4=discover** | 7.7% fraud (highest among card networks) |
@@ -163,10 +163,10 @@ These columns can plausibly represent real-world entities that multiple transact
 | **ProxyType** | `id_23` | IP proxy classification; direct fraud signal |
 
 Columns **not** suitable as graph nodes (too granular, too noisy, or semantically opaque):
-- `card2`, `card3`, `card5` — partial card fields, poor semantics
-- `V1`–`V339` — opaque engineered features; useful as transaction properties, not nodes
-- `C`, `D`, `M` columns — behavioral signals; should be properties on Transaction node
-- `id_01`–`id_11`, etc. — numeric signals; should be properties, not nodes
+- `card2`, `card3`, `card5` - partial card fields, poor semantics
+- `V1`–`V339` - opaque engineered features; useful as transaction properties, not nodes
+- `C`, `D`, `M` columns - behavioral signals; should be properties on Transaction node
+- `id_01`–`id_11`, etc. - numeric signals; should be properties, not nodes
 
 ---
 
@@ -177,7 +177,7 @@ With 3.5% fraud:
 - Preferred metrics: **PR-AUC**, **Recall@Precision**, **F1 (fraud class)**
 - For LightGBM/XGBoost: use `scale_pos_weight` or `is_unbalance=True`
 - For threshold optimization: tune threshold on validation set to maximize F1 or recall at acceptable precision
-- Do not oversample training data unless PR-AUC stalls — tree models handle imbalance natively with weight parameters
+- Do not oversample training data unless PR-AUC stalls - tree models handle imbalance natively with weight parameters
 
 ---
 
@@ -195,7 +195,7 @@ Reasons:
 - Use `scale_pos_weight = 569877 / 20663 ≈ 27.6` to correct for imbalance
 - Encode string columns (card4, card6, ProductCD, email domains) as categoricals or label-encode
 
-**Validation**: Stratified time-aware split. `TransactionDT` covers 182 days — split at day 150 to simulate temporal validation (avoids leakage from future to past).
+**Validation**: Stratified time-aware split. `TransactionDT` covers 182 days - split at day 150 to simulate temporal validation (avoids leakage from future to past).
 
 ### 9.2 Graph Modeling Strategy
 
