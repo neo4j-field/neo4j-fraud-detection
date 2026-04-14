@@ -113,7 +113,9 @@ python src/hybrid/train_graph_enhanced_model.py
 
 ## Graph Model
 
-The chosen graph model (Model A) connects transactions to four shared entity types:
+![Fraud Detection Graph Data Model](docs/Fraud_Datamodel_Graph_DB.png)
+
+The chosen graph model connects transactions to seven shared entity types:
 
 ```
 (Transaction)-[:USED_CARD]-------->(Card)

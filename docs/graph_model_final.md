@@ -6,6 +6,8 @@
 
 ## Graph Data Model
 
+![Fraud Detection Graph Model](Fraud_Datamodel_Graph_DB.png)
+
 ### Mermaid Diagram
 
 ```mermaid
