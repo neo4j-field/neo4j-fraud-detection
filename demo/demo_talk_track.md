@@ -23,6 +23,10 @@
 
 ## Section 2: The Graph Model (3 min)
 
+**Graph data model:**
+
+![Graph Data Model](../docs/Fraud_Datamodel_Graph_DB.png)
+
 **Open Neo4j Browser. Navigate to the database.**
 
 "We loaded this entire dataset as a graph. Every transaction is a node. It's connected to:
