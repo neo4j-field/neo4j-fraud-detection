@@ -1,32 +1,29 @@
-# Graph-Enhanced Model Metrics (Tabular + Graph Features + Embeddings)
+# Graph-Enhanced Model Metrics
 
 ## Experiment Setup
 - **Model**: LightGBM (GBDT)
-- **Features**: Tabular + graph aggregates (card/device/email/billing fraud rates) + FastRP 64-dim embeddings
-- **Split**: Temporal (same as baseline — TransactionDT ≤ day 145 = train)
-- **Imbalance handling**: scale_pos_weight proportional to class ratio
-- **Threshold**: Optimized for F1 on validation set
+- **Features**: Tabular + 22 graph aggregate features + 64 FastRP embedding dims
+- **Graph V2 additions**: recipient email fraud rate, OS+browser fingerprint fraud rate, proxy type signal, prev_card_is_fraud (temporal card chain)
+- **Split**: Temporal (TransactionDT ≤ day 145 = train, > day 145 = validation)
+- **Imbalance handling**: scale_pos_weight = 27.4
+- **Threshold**: 0.79 (F1-optimized)
 
 ## Results
 
 | Metric | Value |
 |---|---|
-| **ROC-AUC** | 0.9441 |
-| **PR-AUC** | 0.6488 |
-| Precision (fraud class) | 0.7249 |
-| Recall (fraud class) | 0.5351 |
-| F1 (fraud class) | 0.6157 |
-| Accuracy | 0.9773 |
-| Threshold | 0.76 |
+| **ROC-AUC** | 0.9536 |
+| **PR-AUC** | 0.7247 |
+| Precision (fraud class) | 0.7914 |
+| Recall (fraud class) | 0.6126 |
+| F1 (fraud class) | 0.6906 |
+| Accuracy | 0.9814 |
+| Threshold | 0.79 |
 | Fraud support (val) | 3678 |
 
 ## Confusion Matrix
 
 | | Predicted Legit | Predicted Fraud |
 |---|---|---|
-| **Actual Legit** | 103936 | 747 |
-| **Actual Fraud** | 1710 | 1968 |
-
-## Artifacts
-- `artifacts/hybrid_confusion_matrix.png`
-- `artifacts/hybrid_feature_importance.png`
+| **Actual Legit** | 104089 | 594 |
+| **Actual Fraud** | 1425 | 2253 |

@@ -6,13 +6,13 @@ A complete fraud detection project comparing traditional ML against graph-enhanc
 
 | Metric | Tabular Baseline | Graph-Enhanced | Delta |
 |---|---|---|---|
-| **ROC-AUC** | 0.9208 | 0.9441 | +0.0233 |
-| **PR-AUC** | 0.5966 | 0.6488 | **+8.7%** |
-| F1 (fraud) | 0.5790 | 0.6157 | +6.3% |
-| Precision | 0.6689 | 0.7249 | +8.4% |
-| Recall | 0.5103 | 0.5351 | +4.9% |
+| **ROC-AUC** | 0.9208 | 0.9536 | +0.0328 |
+| **PR-AUC** | 0.5966 | 0.7247 | **+21.5%** |
+| F1 (fraud) | 0.5790 | 0.6906 | +19.3% |
+| Precision | 0.6689 | 0.7914 | +18.3% |
+| Recall | 0.5103 | 0.6126 | +20.0% |
 
-Graph features improve PR-AUC by 8.7% — the key metric for imbalanced fraud detection.
+Graph features improve PR-AUC by **21.5%** — 376 more fraud cases caught and 335 fewer false alarms on the same validation set.
 
 ---
 

@@ -10,18 +10,23 @@
 
 ```mermaid
 graph LR
-    T(["Transaction\n─────────────\ntransactionId\ntransactionDT\ntransactionAmt\nproductCD\nisFraud\ncard4 / card6\nC1..C14 selected\nM1..M9 selected"])
+    T(["Transaction\n─────────────\ntransactionId\ntransactionDT\ntransactionAmt\nproductCD\nisFraud\ncard4 / card6"])
 
     C(["Card\n─────────────\ncardId (= card1)"])
     ED(["EmailDomain\n─────────────\ndomain"])
     BA(["BillingAddress\n─────────────\naddrKey (addr1|addr2)"])
-    DV(["Device\n─────────────\ndeviceKey (normalized DeviceInfo)"])
+    DV(["Device\n─────────────\ndeviceKey"])
+    OB(["OSBrowser\n─────────────\nosBrowserKey (OS+browser)"])
+    PT(["ProxyType\n─────────────\nproxyLabel"])
 
     T -->|USED_CARD| C
     T -->|PAYER_EMAIL| ED
     T -->|RECIPIENT_EMAIL| ED
     T -->|BILLED_TO| BA
     T -->|USED_DEVICE| DV
+    T -->|HAS_OS_BROWSER| OB
+    T -->|VIA_PROXY| PT
+    T -->|PREV_ON_CARD| T
 ```
 
 ---
